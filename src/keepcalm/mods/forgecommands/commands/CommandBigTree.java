@@ -2,7 +2,7 @@ package keepcalm.mods.forgecommands.commands;
 
 import java.util.Random;
 
-import keepcalm.mods.forgecommands.commands.utilities.PlayerUtilities;
+import keepcalm.mods.forgecommands.commands.util.PlayerUtilities;
 import keepcalm.mods.forgecore.ChatColor;
 import net.minecraft.src.CommandBase;
 import net.minecraft.src.EntityPlayerMP;
@@ -25,8 +25,7 @@ public class CommandBigTree extends CommandBase {
 		}
 		EntityPlayerMP guy = (EntityPlayerMP) var1;
 		
-		PlayerUtilities pu = new PlayerUtilities(guy);
-		MovingObjectPosition t = pu.getTargetBlock();
+		MovingObjectPosition t = PlayerUtilities.getTargetBlock(guy);
 		
 		int x = t.blockX;
 		int y = t.blockY;
