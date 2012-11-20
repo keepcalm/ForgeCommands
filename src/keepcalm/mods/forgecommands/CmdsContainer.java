@@ -1,18 +1,24 @@
 package keepcalm.mods.forgecommands;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.minecraft.src.MinecraftException;
+import net.minecraft.src.ServerCommandManager;
 
+import keepcalm.mods.forgecommands.api.CommandRegistry;
+import keepcalm.mods.forgecommands.commands.CommandBigTree;
+import keepcalm.mods.forgecommands.commands.CommandBreak;
+import keepcalm.mods.forgecommands.commands.CommandHat;
 import cpw.mods.fml.common.MissingModsException;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.*;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.versioning.ArtifactVersion;
 import cpw.mods.fml.common.versioning.DefaultArtifactVersion;
 
@@ -43,10 +49,17 @@ public class CmdsContainer {
 			throw new MissingModsException(x);
 		}
 		
-		
+		CommandRegistry.registerCommand(CommandBigTree.class);
+		CommandRegistry.registerCommand(CommandBreak.class);
+		CommandRegistry.registerCommand(CommandHat.class);
 		cfg = ev.getSuggestedConfigurationFile();
 		
 		
+	}
+	
+	@ServerStarting
+	public void serverStart(FMLServerStartingEvent ev) {
+		CommandRegistry.registerICommands((ServerCommandManager) ev.getServer().getCommandManager());
 	}
 	
 }

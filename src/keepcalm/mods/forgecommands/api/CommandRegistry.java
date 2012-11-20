@@ -1,8 +1,10 @@
-package keepcalm.mods.forgecommands;
+package keepcalm.mods.forgecommands.api;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+
+import keepcalm.mods.forgecommands.CmdsContainer;
 
 import net.minecraft.src.ICommand;
 import net.minecraft.src.ServerCommandManager;
@@ -27,11 +29,15 @@ public class CommandRegistry {
 		return true;
 	}
 	
+	/**
+	 * Register an already-instantiated instance of an ICommand
+	 * @param cls
+	 */
 	public static void registerCommand(ICommand cls) {
 		commands.add(cls);
 	}
 	
-	static void registerICommands(ServerCommandManager scm) {
+	public static void registerICommands(ServerCommandManager scm) {
 		for (ICommand j : commands) {
 			scm.registerCommand(j);
 			CmdsContainer.myLog.info("Successfully registered command: " + j.getCommandName());
