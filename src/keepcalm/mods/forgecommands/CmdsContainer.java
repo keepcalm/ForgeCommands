@@ -12,13 +12,16 @@ import keepcalm.mods.forgecommands.api.CommandRegistry;
 import keepcalm.mods.forgecommands.commands.CommandBigTree;
 import keepcalm.mods.forgecommands.commands.CommandBreak;
 import keepcalm.mods.forgecommands.commands.CommandHat;
+import keepcalm.mods.forgecommands.commands.CommandVanish;
 import cpw.mods.fml.common.MissingModsException;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.common.versioning.ArtifactVersion;
 import cpw.mods.fml.common.versioning.DefaultArtifactVersion;
 
@@ -28,7 +31,7 @@ public class CmdsContainer {
 	@Instance("ForgeCommands")
 	public static CmdsContainer instance;
 	
-	public static Logger myLog;
+	public static Logger logger;
 	
 	/**
 	 * Used by __all__ sub-mods of this package.
@@ -36,13 +39,14 @@ public class CmdsContainer {
 	private static File cfg;
 	@PreInit
 	public void preInit(FMLPreInitializationEvent ev) {
-		myLog = ev.getModLog();
-		myLog.info("Hi");
+		logger = ev.getModLog();
+		logger.setLevel(Level.ALL);
+		logger.info("Hi");
 		try {
 			getClass().getClassLoader().loadClass("keepcalm.mods.forgecore.ForgeCoreModContainer");
 		}
 		catch (ClassNotFoundException e) {
-			myLog.log(Level.SEVERE, "ForgeCommands requires ForgeCore to be installed! Your game will now stop!");
+			logger.log(Level.SEVERE, "ForgeCommands requires ForgeCore to be installed! Your game will now stop!");
 			ArtifactVersion j = new DefaultArtifactVersion("ForgeCore", true);
 			Set<ArtifactVersion> x = new HashSet<ArtifactVersion>();
 			x.add(j);
@@ -51,8 +55,9 @@ public class CmdsContainer {
 		
 		CommandRegistry.registerCommand(CommandBigTree.class);
 		CommandRegistry.registerCommand(CommandBreak.class);
-		CommandRegistry.registerCommand(CommandHat.class);
+		CommandRegistry.registerCommand(CommandVanish.class);
 		cfg = ev.getSuggestedConfigurationFile();
+		TickRegistry.registerTickHandler(new VanishTickHandler(), Side.SERVER);
 		
 		
 	}

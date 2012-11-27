@@ -23,7 +23,7 @@ public class CommandRegistry {
 			ICommand inst = cls.newInstance();
 			commands.add(inst);
 		} catch (Exception e) {
-			CmdsContainer.myLog.log(Level.SEVERE, "The ICommand " + cls.getName() + " failed to register, due to an exception", e);
+			CmdsContainer.logger.log(Level.SEVERE, "The ICommand " + cls.getName() + " failed to register, due to an exception", e);
 			return false;
 		}
 		return true;
@@ -40,7 +40,7 @@ public class CommandRegistry {
 	public static void registerICommands(ServerCommandManager scm) {
 		for (ICommand j : commands) {
 			scm.registerCommand(j);
-			CmdsContainer.myLog.info("Successfully registered command: " + j.getCommandName());
+			CmdsContainer.logger.info("Successfully registered command: " + j.getCommandName());
 		}
 	}
 }
